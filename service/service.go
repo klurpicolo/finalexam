@@ -12,17 +12,8 @@ func Insert(customer *models.Customer) (string, error) {
 		return "", err
 	}
 
-	row, err2 := stmt.Query(customer.Name, customer.Email, customer.Status)
-	if err2 != nil {
-		return "", err
-	}
+	row := stmt.QueryRow(customer.Name, customer.Email, customer.Status)
 
-	// createdCustomer := models.Customer{
-	// 	ID:     "",
-	// 	Name:   customer.Name,
-	// 	Email:  customer.Email,
-	// 	Status: customer.Status,
-	// }
 	var ID *string
 	err3 := row.Scan(&ID)
 	if err3 != nil {
@@ -74,4 +65,31 @@ func FindbyID(id string) (*models.Customer, error) {
 	}
 
 	return customer, nil
+}
+
+//UpdateByID comment
+func UpdateByID(id string, customer *models.Customer) error {
+	stmt, err := database.Conn().Prepare("UPDATE customers SET name=$2, email=$3, status=$4 WHERE id=$1")
+	if err != nil {
+		return err
+	}
+
+	if _, err := stmt.Exec(id, customer.Name, customer.Email, customer.Status); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func DeleteByID(id string) error {
+	stmt, err := database.Conn().Prepare("DELETE FROM customers Where id = $1")
+	if err != nil {
+		return err
+	}
+
+	if _, err := stmt.Exec(id); err != nil {
+		return err
+	}
+
+	return nil
 }

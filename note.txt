@@ -1,6 +1,16 @@
 #GO command
 go mod init github.com/klurpicolo/finalexam
 
-
 #GIT command
 git push -u origin master
+
+#SQL
+CREATE TABLE customers (
+		id SERIAL PRIMARY KEY,
+		name TEXT,
+		email TEXT,
+		status TEXT
+);
+
+#ENV
+set DATABASE_URL =postgres://user:password@url.com:port
