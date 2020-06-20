@@ -1,0 +1,6 @@
+#GO command
+go mod init github.com/klurpicolo/finalexam
+
+
+#GIT command
+git push -u origin master
